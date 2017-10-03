@@ -4,6 +4,6 @@ import sys
 sys.path.append('SimpleCVHelper')
 from SimpleCVHelper import *
 
-from webcamlib import *
-a = webcamlib()
+from picam2cv import picam2cv
+a = picam2cv()
 

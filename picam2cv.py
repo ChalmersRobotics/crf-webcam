@@ -6,7 +6,7 @@ from numpy import rot90
 import math
 import time
 
-class webcamlib:
+class picam2cv:
 	def __init__(self, **kwargs):
 		self.camera = PiCamera()
 		self.imgEmma = Image('emma.jpg')
