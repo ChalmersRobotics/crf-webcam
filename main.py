@@ -5,5 +5,8 @@ sys.path.append('SimpleCVHelper')
 from SimpleCVHelper import *
 
 from picam2cv import picam2cv
-a = picam2cv()
+picam = picam2cv()
+
+from crfcam import crfcam
+crf = crfcam()
 
