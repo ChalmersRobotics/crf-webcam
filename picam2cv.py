@@ -9,8 +9,6 @@ import time
 class picam2cv:
 	def __init__(self, **kwargs):
 		self.camera = PiCamera()
-		self.imgEmma = Image('emma.jpg')
-		self.imgBackground = Image('bg.jpg')
 
 	def getRaspiCamImage(self):
 		rawCapture = PiRGBArray(self.camera)

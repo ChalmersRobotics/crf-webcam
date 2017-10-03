@@ -7,6 +7,5 @@ from SimpleCVHelper import *
 from picam2cv import picam2cv
 picam = picam2cv()
 
-from crfcam import crfcam
-crf = crfcam()
+import crf
 
