@@ -1,9 +1,20 @@
 from SimpleCV import Image
-self.imgEmma = Image('emma.jpg')
-self.imgBackground = Image('bg.jpg')
+imgEmma = Image('emma.jpg')
+imgBackground = Image('bg.jpg')
 
-def detectMovement(last, current, blobsOutput=None):
-	return(False)
+def detectMovement(last, current):
+	diff = (current - last) + (last - current)
+	diff2 = diff.erode(4)
+	blobs = diff2.findBlobs(minsize=10000)
+	changesOut = current
+	if blobs:
+		for blob in blobs:
+			changesOut.drawRectangle(x=blob.minX(), y=blob.minY(), w=blob.minRectWidth(), h=blob.minRectHeight(), width=3)
+	#changesOut.show()
+	if blobs:
+		return(True, changesOut)
+	else:
+		return(False, changesOut)
 
 def anonymize(img):
 	print("hejhejhej")
