@@ -1,4 +1,6 @@
 from SimpleCV import Image
+import cv2
+
 imgEmma = Image('emma.jpg')
 imgBackground = Image('bg.jpg')
 p1 = Image('people1.jpg')
@@ -32,6 +34,15 @@ def testHaar(img, listHaar):
 		tmpImg2 = Image('tmp.png')
 		outList.append(tmpImg2)
 	return(outList)
+
+def testHog(img):
+	hog = cv2.HOGDescriptor()
+	hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
+	imgOut = img.copy()
+	found,foundweight = hog.detectMultiScale(img.getNumpy() , winStride=(8,8), padding=(32,32), scale=1.05)
+	for x, y, w, h in found:
+		imgOut.drawRectangle(x=x, y=y, w=w, h=h, width=3)
+	return(imgOut)
 
 def anonymize(img):
 	print("hejhejhej")
