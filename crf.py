@@ -39,8 +39,11 @@ def testHog(img):
 	hog = cv2.HOGDescriptor()
 	hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
 	imgOut = img.copy()
-	found,foundweight = hog.detectMultiScale(img.getNumpy() , winStride=(8,8), padding=(32,32), scale=1.05)
+	found,foundweight = hog.detectMultiScale(img.grayscale().getNumpyCv2() , winStride=(4,4), padding=(8,8), scale=1.05)
 	for x, y, w, h in found:
+		#x = imgOut.width - x
+		#y = imgOut.height - y
+		#x,y = y,x
 		imgOut.drawRectangle(x=x, y=y, w=w, h=h, width=3)
 	return(imgOut)
 
