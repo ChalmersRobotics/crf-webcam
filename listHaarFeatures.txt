@@ -1,0 +1,28 @@
+t6.listHaarFeatures()
+
+face.xml
+face2.xml
+face3.xml
+face4.xml
+face_cv2.xml
+	two_eyes_small.xml
+	two_eyes_big.xml
+	glasses.xml
+	eye.xml
+		lefteye.xml
+		left_eye2.xml
+		right_eye.xml
+		right_eye2.xml
+	left_ear.xml
+	right_ear.xml
+	mouth.xml
+	nose.xml
+
+fullbody.xml
+	profile.xml
+		upper_body.xml
+		upper_body2.xml
+		lower_body.xml
+
+tableImages(crf.testHaar(crf.p3, ['face.xml','face3.xml']), outWidth=1920, outHeight=1080).show()
+

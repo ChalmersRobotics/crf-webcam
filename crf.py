@@ -1,6 +1,12 @@
 from SimpleCV import Image
 imgEmma = Image('emma.jpg')
 imgBackground = Image('bg.jpg')
+p1 = Image('people1.jpg')
+p2 = Image('people2.jpg')
+p3 = Image('people3.jpg')
+p4 = Image('people4.jpg')
+p5 = Image('people5.jpg')
+p6 = Image('people6.jpg')
 
 def detectMovement(last, current):
 	diff = (current - last) + (last - current)
@@ -15,6 +21,17 @@ def detectMovement(last, current):
 		return(True, changesOut)
 	else:
 		return(False, changesOut)
+
+def testHaar(img, listHaar):
+	outList = []
+	for haarFile in listHaar:
+		tmpImg = img.copy()
+		tmpHaar = tmpImg.grayscale().findHaarFeatures(haarFile)
+		tmpImg.draw(tmpHaar, width=3)
+		tmpImg.save('tmp.png')
+		tmpImg2 = Image('tmp.png')
+		outList.append(tmpImg2)
+	return(outList)
 
 def anonymize(img):
 	print("hejhejhej")
