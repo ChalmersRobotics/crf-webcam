@@ -10,6 +10,13 @@ p4 = Image('people4.jpg')
 p5 = Image('people5.jpg')
 p6 = Image('people6.jpg')
 
+c0 = Image('crf00.png')
+c1 = Image('crf01.png')
+c2 = Image('crf02.png')
+c3 = Image('crf03.png')
+c4 = Image('crf04.png')
+c5 = Image('crf05.png')
+
 def detectMovement(last, current):
 	diff = (current - last) + (last - current)
 	diff2 = diff.erode(4)
