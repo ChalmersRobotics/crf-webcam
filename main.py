@@ -4,6 +4,12 @@ import sys
 sys.path.append('SimpleCVHelper')
 from SimpleCVHelper import *
 
+import json
+try:
+	with open("cam.conf") as json_data_file:
+		config = json.load(json_data_file)
+
+
 from picam2cv import picam2cv
 picam = picam2cv()
 
@@ -19,10 +25,10 @@ roomName = config['name']
 sDate = Now(ISO8601)
 sDateTime = Now(ISO8601)
 
-filenameCurrent = '{}_current_{}.jpg'.format(roomName, sDate)
-filenameDetect = '{}_detect_{}.jpg'.format(roomName, sDate)
-titleCurrent = 'CRF {} {}'.format(roomName, sDateTime)
-titleDetect = 'CRF {} {}.jpg'.format(roomName, sDateTime)
+filenameCurrent = config['filenameNow'].format(sDate)
+filenameDetect = config['filenameMovement'].format(sDate)
+titleCurrent = config['titleNow'].format(sDateTime)
+titleDetect = config['titleMovement'].format(sDateTime)
 
 filesToUpload = []
 imgCurrent = crf.drawText(currentAnon, titleCurrent)

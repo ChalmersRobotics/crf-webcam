@@ -1,0 +1,22 @@
+{
+	"name": "Webcam 01",
+	"filenameNow": "webcam01_current_{}.jpg",
+	"filenameMovement": "webcam01_detect_{}.jpg",
+	"titleNow": "Webcam 01 {}",
+	"titleMovement": "Webcam 01 Detect {}",
+	"uploadPaths": [
+		{
+			"hostname": "example.org",
+			"username": "user",
+			"identify": "~/.ssh/indentityfile",
+			"uploadPath": "/home/user/images"
+		},
+		{
+			"hostname": "example2.org",
+			"username": "user2",
+			"identify": "~/.ssh/indentityfile2",
+			"uploadPath": "/home/user2/pictures"
+		}
+	]
+}
+
