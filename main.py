@@ -66,5 +66,6 @@ if __name__ == '__main__':
 	#Cause the process to sleep until a signal is received
 	signal.pause()
 
+	print("Exit")
 	sys.exit(0)
 
