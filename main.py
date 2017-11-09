@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import sys, signal, threading
+import sys, signal, threading, datetime
 
 sys.path.append('SimpleCVHelper')
 from SimpleCVHelper import *
@@ -9,7 +9,12 @@ import json
 try:
 	with open("cam.conf") as json_data_file:
 		config = json.load(json_data_file)
-
+except:
+	e = sys.exc_info()[0]
+	print(e)
+	print("Failed to read config file cam.conf")
+	global shutdown
+	shutdown = True
 
 from picam2cv import picam2cv
 picam = picam2cv()
@@ -22,28 +27,26 @@ shutdown = False
 
 def threadCamLoop():
 	while not shutdown:
+		last = current
 		current = picam.getRaspiCamImage()
 
 		motionDetected, blobsDetected = crf.detectMovement(last, current)
 		numberOfPeople, currentAnon = crf.anonymize(current)
 
-		roomName = config['name']
-		sDate = Now(ISO8601)
-		sDateTime = Now(ISO8601)
+		sDateTimeFile = datetime.datetime.now().strftime("%Y-%m-%d_%H.%M.%S")
+		sDateTime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-		filenameCurrent = config['filenameNow'].format(sDate)
-		filenameDetect = config['filenameMovement'].format(sDate)
-		titleCurrent = config['titleNow'].format(sDateTime)
-		titleDetect = config['titleMovement'].format(sDateTime)
+		filenameCurrent = config['filenameNow'].format(sDateTimeFile)
+		filenameDetect = config['filenameMovement'].format(sDateTimeFile)
 
 		filesToUpload = []
-		imgCurrent = crf.drawText(currentAnon, titleCurrent)
+		imgCurrent = crf.drawText(currentAnon, config['titleNow'].format(sDateTime))
 		imgCurrent.save(filenameCurrent)
 		filesToUpload.append(filenameCurrent)
 
 		if motionDetected:
 			imgMovement = crf.drawMovement(currentAnon, blobsDetected)
-			imgMovement = imgMovement(imgMovement, titleDetect)
+			imgMovement = crf.drawText(currentAnon, config['titleMovement'].format(sDateTime))
 			imgMovement.save(filenameDetect)
 			filesToUpload.append(filenameDetect)
 
