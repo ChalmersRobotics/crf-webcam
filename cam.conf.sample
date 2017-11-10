@@ -4,6 +4,7 @@
 	"filenameMovement": "webcam01_detect_{}.jpg",
 	"titleNow": "Webcam 01 {}",
 	"titleMovement": "Webcam 01 Detect {}",
+	"tempImgPath": "/tmp",
 	"uploadPaths": [
 		{
 			"hostname": "example.org",
