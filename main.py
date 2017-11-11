@@ -40,7 +40,7 @@ def threadCamLoop():
 		filenameDetect = config['filenameMovement'].format(sDateTimeFile)
 
 		filesToUpload = []
-		imgCurrent = crf.drawText(currentAnon, config['titleNow'].format(sDateTime))
+		crf.drawCRFHeader(currentAnon, config['titleNow'].format(sDateTime))
 		imgCurrent.save(filenameCurrent)
 		filesToUpload.append(filenameCurrent)
 

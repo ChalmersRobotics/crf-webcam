@@ -59,6 +59,8 @@ def anonymize(img):
 		imgOut = imgOut.blit(featureImg, pos=feature.topLeftCorner())
 	return(len(features), imgOut)
 
-def drawCRFHeader(name, img):
-	return(img)
+def drawCRFHeader(img, headerText):
+	img.dl().selectFont("ethnocentric")
+	img.drawText(text=headerText, x=16, y=8, fontsize=72, color=(0, 0, 0))
+	img.drawText(text=headerText, x=8, y=12, fontsize=72, color=(255, 200, 46))
 
