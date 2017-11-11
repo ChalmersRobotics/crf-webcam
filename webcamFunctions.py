@@ -26,29 +26,6 @@ def detectMovement(last, current):
 	else:
 		return(False, blobs)
 
-def testHaar(img, listHaar):
-	outList = []
-	for haarFile in listHaar:
-		tmpImg = img.copy()
-		tmpHaar = tmpImg.grayscale().findHaarFeatures(haarFile)
-		tmpImg.draw(tmpHaar, width=3)
-		tmpImg.save('tmp.png')
-		tmpImg2 = Image('tmp.png')
-		outList.append(tmpImg2)
-	return(outList)
-
-def testHog(img):
-	hog = cv2.HOGDescriptor()
-	hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
-	imgOut = img.copy()
-	found,foundweight = hog.detectMultiScale(img.grayscale().getNumpyCv2() , winStride=(4,4), padding=(8,8), scale=1.05)
-	for x, y, w, h in found:
-		#x = imgOut.width - x
-		#y = imgOut.height - y
-		#x,y = y,x
-		imgOut.drawRectangle(x=x, y=y, w=w, h=h, width=3)
-	return(imgOut)
-
 def anonymize(img):
 	imgOut = img.copy()
 	features = imgOut.findHaarFeatures("upper_body.xml")
