@@ -5,15 +5,13 @@ A webcam motion detect and anonymize for Raspberry Pi.
 * Python2.7
 * SimpleCV
 * PySFTP
-* SimpleCVHelper (Submodule)
 
 
 # Install
 ## Download this repo
-Download recursive
 ```bash
 cd
-git clone --recursive https://github.com/ChalmersRobotics/crf-webcam.git
+git clone https://github.com/ChalmersRobotics/crf-webcam.git
 cd crf-webcam
 ```
 

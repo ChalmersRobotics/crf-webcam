@@ -2,9 +2,6 @@
 # -*- coding: utf-8 -*-
 import sys, signal, threading, datetime
 
-sys.path.append('SimpleCVHelper')
-from SimpleCVHelper import *
-
 import json
 try:
 	with open("cam.conf") as json_data_file:
