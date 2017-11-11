@@ -17,48 +17,59 @@ except:
 	shutdown = True
 
 from picam2cv import picam2cv
-picam = picam2cv()
+picam = None
 
 import webcamFunctions
 
 last = Image()
-current = Image()
+current = webcamFunctions.c0
 shutdown = False
 
 def threadCamLoop():
+	global last, current
 	while not shutdown:
+		sDateTimeFile = datetime.datetime.now().strftime("%Y-%m-%d_%H.%M.%S")
+		sDateTime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+		print("Cam loop {}".format(sDateTime))
+
 		last = current
 		current = picam.getRaspiCamImage()
 
 		motionDetected, blobsDetected = webcamFunctions.detectMovement(last, current)
 		numberOfPeople, currentAnon = webcamFunctions.anonymize(current)
 
-		sDateTimeFile = datetime.datetime.now().strftime("%Y-%m-%d_%H.%M.%S")
-		sDateTime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
 		filenameCurrent = config['filenameNow'].format(sDateTimeFile)
 		filenameDetect = config['filenameMovement'].format(sDateTimeFile)
 
 		filesToUpload = []
-		webcamFunctions.drawCRFHeader(currentAnon, config['titleNow'].format(sDateTime))
-		imgCurrent.save(filenameCurrent)
-		filesToUpload.append(filenameCurrent)
-
 		if motionDetected:
-			imgMovement = webcamFunctions.drawMovement(currentAnon, blobsDetected)
-			imgMovement = webcamFunctions.drawText(currentAnon, config['titleMovement'].format(sDateTime))
-			imgMovement.save(filenameDetect)
-			filesToUpload.append(filenameDetect)
+			webcamFunctions.drawCRFHeader(currentAnon, config['titleMovement'].format(sDateTime))
+		else:
+			webcamFunctions.drawCRFHeader(currentAnon, config['titleNow'].format(sDateTime))
+		currentAnon.show()
+		#imgCurrent.save(filenameCurrent)
+		#filesToUpload.append(filenameCurrent)
 
-		webcamFunctions.sendSFTP(filesToUpload)
+		#if motionDetected:
+		#	imgMovement = webcamFunctions.drawMovement(currentAnon, blobsDetected)
+		#	imgMovement = webcamFunctions.drawText(currentAnon, config['titleMovement'].format(sDateTime))
+		#	imgMovement.save(filenameDetect)
+		#	filesToUpload.append(filenameDetect)
+
+		#webcamFunctions.sendSFTP(filesToUpload)
+	print("Thread exit")
 
 def signal_handler(signal, frame):
 	print('SIGINT detected. Prepareing to shut down.')
 	global shutdown
-		shutdown = True
+	shutdown = True
 
 if __name__ == '__main__':
-	print("Starting cam")
+	print("Starting")
+
+	print("Init raspicam")
+	global picam
+	picam = picam2cv()
 
 	#Start listening for SIGINT (Ctrl+C)
 	signal.signal(signal.SIGINT, signal_handler)
