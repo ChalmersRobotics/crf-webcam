@@ -19,7 +19,7 @@ except:
 from picam2cv import picam2cv
 picam = picam2cv()
 
-import crf
+import webcamFunctions
 
 last = Image()
 current = Image()
@@ -30,8 +30,8 @@ def threadCamLoop():
 		last = current
 		current = picam.getRaspiCamImage()
 
-		motionDetected, blobsDetected = crf.detectMovement(last, current)
-		numberOfPeople, currentAnon = crf.anonymize(current)
+		motionDetected, blobsDetected = webcamFunctions.detectMovement(last, current)
+		numberOfPeople, currentAnon = webcamFunctions.anonymize(current)
 
 		sDateTimeFile = datetime.datetime.now().strftime("%Y-%m-%d_%H.%M.%S")
 		sDateTime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -40,17 +40,17 @@ def threadCamLoop():
 		filenameDetect = config['filenameMovement'].format(sDateTimeFile)
 
 		filesToUpload = []
-		crf.drawCRFHeader(currentAnon, config['titleNow'].format(sDateTime))
+		webcamFunctions.drawCRFHeader(currentAnon, config['titleNow'].format(sDateTime))
 		imgCurrent.save(filenameCurrent)
 		filesToUpload.append(filenameCurrent)
 
 		if motionDetected:
-			imgMovement = crf.drawMovement(currentAnon, blobsDetected)
-			imgMovement = crf.drawText(currentAnon, config['titleMovement'].format(sDateTime))
+			imgMovement = webcamFunctions.drawMovement(currentAnon, blobsDetected)
+			imgMovement = webcamFunctions.drawText(currentAnon, config['titleMovement'].format(sDateTime))
 			imgMovement.save(filenameDetect)
 			filesToUpload.append(filenameDetect)
 
-		crf.sendSFTP(filesToUpload)
+		webcamFunctions.sendSFTP(filesToUpload)
 
 def signal_handler(signal, frame):
 	print('SIGINT detected. Prepareing to shut down.')
