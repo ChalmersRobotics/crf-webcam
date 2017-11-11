@@ -21,15 +21,10 @@ def detectMovement(last, current):
 	diff = (current - last) + (last - current)
 	diff2 = diff.erode(4)
 	blobs = diff2.findBlobs(minsize=10000)
-	changesOut = current
 	if blobs:
-		for blob in blobs:
-			changesOut.drawRectangle(x=blob.minX(), y=blob.minY(), w=blob.minRectWidth(), h=blob.minRectHeight(), width=3)
-	#changesOut.show()
-	if blobs:
-		return(True, changesOut)
+		return(True, blobs)
 	else:
-		return(False, changesOut)
+		return(False, blobs)
 
 def testHaar(img, listHaar):
 	outList = []
@@ -55,8 +50,14 @@ def testHog(img):
 	return(imgOut)
 
 def anonymize(img):
-	print("hejhejhej")
-	return(img)
+	imgOut = img.copy()
+	features = imgOut.findHaarFeatures("upper_body.xml")
+	anonScale = 20.0
+	for feature in features:
+		#Pixelate via rescale
+		featureImg = feature.crop().resize(w=int(feature.width()/anonScale)).scale(anonScale)
+		imgOut = imgOut.blit(featureImg, pos=feature.topLeftCorner())
+	return(len(features), imgOut)
 
 def drawCRFHeader(name, img):
 	return(img)
