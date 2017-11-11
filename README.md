@@ -5,6 +5,7 @@ A webcam motion detect and anonymize for Raspberry Pi.
 * Python2.7
 * SimpleCV
 * PySFTP
+* SimpleCVHelper (Submodule)
 
 
 # Install
