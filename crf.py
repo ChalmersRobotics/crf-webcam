@@ -55,7 +55,9 @@ def anonymize(img):
 	anonScale = 20.0
 	for feature in features:
 		#Pixelate via rescale
-		featureImg = feature.crop().resize(w=int(feature.width()/anonScale)).scale(anonScale)
+		featureImg = feature.crop().resize(	w=int(feature.width()/anonScale),
+											h=int(feature.height()/anonScale)
+											).scale(anonScale)
 		imgOut = imgOut.blit(featureImg, pos=feature.topLeftCorner())
 	return(len(features), imgOut)
 
