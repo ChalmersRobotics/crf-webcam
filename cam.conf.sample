@@ -1,9 +1,9 @@
 {
-	"name": "Webcam 01",
-	"filenameNow": "webcam01_current_{}.jpg",
-	"filenameMovement": "webcam01_detect_{}.jpg",
-	"titleNow": "Webcam 01 {}",
-	"titleMovement": "Webcam 01 Detect {}",
+	"name": "CRF Inner",
+	"filenameNow": "/tmp/crf_webcam_inner.jpg",
+	"filenameMovement": "/tmp/crf_webcam_inner_movement.jpg",
+	"titleNow": "CRF Inner {}",
+	"titleMovement": "CRF Inner Movement {}",
 	"tempImgPath": "/tmp",
 	"uploadPaths": [
 		{
