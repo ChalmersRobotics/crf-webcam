@@ -46,3 +46,7 @@ def drawCRFHeader(img, headerText):
 	img.drawText(text=headerText, x=16, y=8, fontsize=72, color=(0, 0, 0))
 	img.drawText(text=headerText, x=8, y=12, fontsize=72, color=(255, 200, 46))
 
+def drawMovement(img, blobs):
+	for blob in blobs:
+		img.draw(blob, width=5, color=(255,0,0))
+
