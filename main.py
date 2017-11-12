@@ -18,12 +18,13 @@ picam = None
 
 import webcamFunctions
 
-last = Image()
-current = webcamFunctions.c0
+last = None
+current = None
 shutdown = False
 
 def threadCamLoop():
 	global last, current
+	current = picam.getRaspiCamImage()
 	while not shutdown:
 		sDateTimeFile = datetime.datetime.now().strftime("%Y-%m-%d_%H.%M.%S")
 		sDateTime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
