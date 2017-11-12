@@ -43,18 +43,18 @@ def threadCamLoop():
 		imgCurrent = currentAnon.copy()
 		webcamFunctions.drawCRFHeader(imgCurrent, config['titleNow'].format(sDateTime))
 		imgCurrent.show()
-		#imgCurrent.save(filenameCurrent)
-		#filesToUpload.append(filenameCurrent)
+		imgCurrent.save(filenameCurrent)
+		filesToUpload.append(filenameCurrent)
 
 		if motionDetected:
 			imgMovement = currentAnon.copy()
 			webcamFunctions.drawMovement(imgMovement, blobsDetected)
 			webcamFunctions.drawCRFHeader(imgMovement, config['titleMovement'].format(sDateTime))
 			imgMovement.show()
-		#	imgMovement.save(filenameDetect)
-		#	filesToUpload.append(filenameDetect)
+			imgMovement.save(filenameDetect)
+			filesToUpload.append(filenameDetect)
 
-		#webcamFunctions.sendSFTP(filesToUpload)
+		webcamFunctions.upload(filesToUpload, config)
 	print("Exit cam thread")
 
 def signal_handler(signal, frame):

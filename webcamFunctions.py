@@ -1,5 +1,5 @@
 from SimpleCV import Image
-import cv2
+import cv2, pysftp
 
 imgEmma = Image('emma.jpg')
 imgBackground = Image('bg.jpg')
@@ -49,4 +49,16 @@ def drawCRFHeader(img, headerText):
 def drawMovement(img, blobs):
 	for blob in blobs:
 		img.draw(blob, width=5, color=(255,0,0))
+
+def upload(files, config):
+	for server in config['uploadPaths']:
+		try:
+			conn = pysftp.Connection(host=server['hostname'], username=server['username'], private_key=server['identify'])
+			conn.cwd(server['uploadPath'])
+			for filee in files:
+				conn.put(filee)
+		except Exception as e:
+			print "Exception ({0}): {1}".format(e.errno, e.strerror)
+			pass
+		conn.close()
 
