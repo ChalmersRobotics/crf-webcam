@@ -43,8 +43,8 @@ def anonymize(img):
 
 def drawCRFHeader(img, headerText):
 	img.dl().selectFont("ethnocentric")
-	img.drawText(text=headerText, x=16, y=8, fontsize=72, color=(0, 0, 0))
-	img.drawText(text=headerText, x=8, y=12, fontsize=72, color=(255, 200, 46))
+	img.drawText(text=headerText, x=16, y=8, fontsize=60, color=(0, 0, 0))
+	img.drawText(text=headerText, x=8, y=12, fontsize=60, color=(255, 200, 46))
 
 def drawMovement(img, blobs):
 	for blob in blobs:
