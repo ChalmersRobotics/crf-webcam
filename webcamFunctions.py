@@ -28,14 +28,17 @@ def detectMovement(last, current):
 
 def anonymize(img):
 	imgOut = img.copy()
-	features = imgOut.findHaarFeatures("upper_body.xml")
+	scaleFactor = 5.0
+	imgReduced = img.copy().scale(1/scaleFactor)
+
+	features = imgReduced.findHaarFeatures("upper_body.xml")
+
 	anonScale = 20.0
 	for feature in features:
 		#Pixelate via rescale
-		featureImg = feature.crop().resize(	w=int(feature.width()/anonScale),
-											h=int(feature.height()/anonScale)
-											).scale(anonScale)
-		imgOut = imgOut.blit(featureImg, pos=feature.topLeftCorner())
+		featureImg = feature.crop().scale(1/scaleFactor).scale(scaleFactor**2)
+		x,y = feature.topLeftCorner()
+		imgOut = imgOut.blit(featureImg, pos=(int(x*scaleFactor),int(y*scaleFactor)))
 	return(len(features), imgOut)
 
 def drawCRFHeader(img, headerText):
