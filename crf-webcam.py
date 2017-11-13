@@ -1,17 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import sys, signal, threading, datetime, time
+import sys, signal, threading, datetime, time, getopt
 
+configFile = "cam.conf"
+config = None
 import json
-try:
-	with open("cam.conf") as json_data_file:
-		config = json.load(json_data_file)
-except:
-	e = sys.exc_info()[0]
-	print(e)
-	print("Failed to read config file cam.conf")
-	global shutdown
-	shutdown = True
 
 from picam2cv import picam2cv
 picam = None
@@ -42,7 +35,7 @@ def threadCamLoop():
 		filesToUpload = []
 		imgCurrent = currentAnon.copy()
 		webcamFunctions.drawCRFHeader(imgCurrent, config['titleNow'].format(sDateTime))
-		imgCurrent.show()
+		#imgCurrent.show()
 		imgCurrent.save(filenameCurrent)
 		filesToUpload.append(filenameCurrent)
 
@@ -50,7 +43,7 @@ def threadCamLoop():
 			imgMovement = currentAnon.copy()
 			webcamFunctions.drawMovement(imgMovement, blobsDetected)
 			webcamFunctions.drawCRFHeader(imgMovement, config['titleMovement'].format(sDateTime))
-			imgMovement.show()
+			#imgMovement.show()
 			imgMovement.save(filenameDetect)
 			filesToUpload.append(filenameDetect)
 
@@ -66,6 +59,26 @@ def signal_handler(signal, frame):
 
 if __name__ == '__main__':
 	print("Starting")
+	try:
+		opts, args = getopt.getopt(sys.argv[1:],"c:v",["config="])
+		for o, a in opts:
+			if o in ("-c", "--config"):
+				global configFile
+				configFile = a
+	except getopt.GetoptError as err:
+		print(err)
+
+	try:
+		print("Config file: {}".format(configFile))
+		with open(configFile) as json_data_file:
+			global config
+			config = json.load(json_data_file)
+	except:
+		e = sys.exc_info()[0]
+		print(e)
+		print("Failed to read config file cam.conf")
+		global shutdown
+		shutdown = True
 
 	print("Init raspicam")
 	global picam
