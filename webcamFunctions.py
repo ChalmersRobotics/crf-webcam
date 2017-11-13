@@ -1,22 +1,6 @@
 from SimpleCV import Image
 import cv2, pysftp
 
-imgEmma = Image('emma.jpg')
-imgBackground = Image('bg.jpg')
-p1 = Image('people1.jpg')
-p2 = Image('people2.jpg')
-p3 = Image('people3.jpg')
-p4 = Image('people4.jpg')
-p5 = Image('people5.jpg')
-p6 = Image('people6.jpg')
-
-c0 = Image('crf00.png')
-c1 = Image('crf01.png')
-c2 = Image('crf02.png')
-c3 = Image('crf03.png')
-c4 = Image('crf04.png')
-c5 = Image('crf05.png')
-
 def detectMovement(last, current):
 	diff = (current - last) + (last - current)
 	diff2 = diff.erode(4)
@@ -53,7 +37,9 @@ def drawMovement(img, blobs):
 def upload(files, config):
 	for server in config['uploadPaths']:
 		try:
-			conn = pysftp.Connection(host=server['hostname'], username=server['username'], private_key=server['identify'])
+			cnopts = pysftp.CnOpts()
+			cnopts.hostkeys = None
+			conn = pysftp.Connection(host=server['hostname'], username=server['username'], private_key=server['identify'], cnopts=cnopts)
 			conn.cwd(server['uploadPath'])
 			for filee in files:
 				conn.put(filee)
