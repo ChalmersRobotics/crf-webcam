@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import sys, signal, threading, datetime
+import sys, signal, threading, datetime, time
 
 import json
 try:
@@ -55,6 +55,8 @@ def threadCamLoop():
 			filesToUpload.append(filenameDetect)
 
 		webcamFunctions.upload(filesToUpload, config)
+
+		time.sleep(10)
 	print("Exit cam thread")
 
 def signal_handler(signal, frame):
