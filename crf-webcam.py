@@ -14,6 +14,7 @@ import webcamFunctions
 last = None
 current = None
 shutdown = False
+debugMode = False
 
 def threadCamLoop():
 	global last, current
@@ -21,7 +22,8 @@ def threadCamLoop():
 	while not shutdown:
 		sDateTimeFile = datetime.datetime.now().strftime("%Y-%m-%d_%H.%M.%S")
 		sDateTime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-		print("Cam loop {}".format(sDateTime))
+		if debugMode:
+			print("Cam loop {}".format(sDateTime))
 
 		last = current
 		current = picam.getRaspiCamImage()
@@ -35,7 +37,8 @@ def threadCamLoop():
 		filesToUpload = []
 		imgCurrent = currentAnon.copy()
 		webcamFunctions.drawCRFHeader(imgCurrent, config['titleNow'].format(sDateTime))
-		#imgCurrent.show()
+		if debugMode:
+			imgCurrent.show()
 		imgCurrent.save(filenameCurrent)
 		filesToUpload.append(filenameCurrent)
 
@@ -43,44 +46,55 @@ def threadCamLoop():
 			imgMovement = currentAnon.copy()
 			webcamFunctions.drawMovement(imgMovement, blobsDetected)
 			webcamFunctions.drawCRFHeader(imgMovement, config['titleMovement'].format(sDateTime))
-			#imgMovement.show()
+			if debugMode:
+				imgMovement.show()
 			imgMovement.save(filenameDetect)
 			filesToUpload.append(filenameDetect)
 
 		webcamFunctions.upload(filesToUpload, config)
 
 		time.sleep(10)
-	print("Exit cam thread")
+	if debugMode:
+		print("Exit cam thread")
 
 def signal_handler(signal, frame):
-	print('SIGINT detected. Prepareing to shut down.')
+	if debugMode:
+		print('SIGINT detected. Prepareing to shut down.')
 	global shutdown
 	shutdown = True
 
 if __name__ == '__main__':
-	print("Starting")
+	if debugMode:
+		print("Starting")
 	try:
-		opts, args = getopt.getopt(sys.argv[1:],"c:v",["config="])
+		opts, args = getopt.getopt(sys.argv[1:],"c:d",["config=","debug"])
 		for o, a in opts:
 			if o in ("-c", "--config"):
 				global configFile
 				configFile = a
+			if o in ("-d", "--debug"):
+				global debugMode
+				debugMode = True
 	except getopt.GetoptError as err:
-		print(err)
+		if debugMode:
+			print(err)
 
 	try:
-		print("Config file: {}".format(configFile))
+		if debugMode:
+			print("Config file: {}".format(configFile))
 		with open(configFile) as json_data_file:
 			global config
 			config = json.load(json_data_file)
 	except:
 		e = sys.exc_info()[0]
-		print(e)
-		print("Failed to read config file cam.conf")
+		if debugMode:
+			print(e)
+			print("Failed to read config file cam.conf")
 		global shutdown
 		shutdown = True
 
-	print("Init raspicam")
+	if debugMode:
+		print("Init raspicam")
 	global picam
 	picam = picam2cv()
 
@@ -93,6 +107,7 @@ if __name__ == '__main__':
 	#Cause the process to sleep until a signal is received
 	signal.pause()
 
-	print("Exit")
+	if debugMode:
+		print("Exit")
 	sys.exit(0)
 
