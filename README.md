@@ -44,11 +44,9 @@ Edit cam.conf, set the parameters
 # LSB Init
 Copy crf-webcam (LSB Init) to your init.d, make sure it's runable.
 ```bash
-sudo cp crf-webcam /etc/init.d/
-sudo chmod +x /etc/init.d/crf-webcam
+cd /etc/init.d/
+sudo ln -s /home/pi/crf-webcam/crf-webcam
 ```
-
-Edit the path /home/pi/projects/crf-webcam /etc/init.d/crf-webcam
 
 Make it start up with the computer
 ```bash
