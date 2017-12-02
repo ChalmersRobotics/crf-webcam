@@ -16,14 +16,33 @@ cd crf-webcam
 ```
 
 ## SimpleCV
-* Install SimpleCV http://simplecv.readthedocs.io/en/latest/HOWTO-Install%20on%20RaspberryPi.html
+* Install deps
 ```bash
 sudo apt-get install ipython python-opencv python-scipy python-numpy python-setuptools python-pip
 ```
 
+* Install svgwrite
+```bash
+sudo pip install svgwrite
+```
+
+* Install SimpleCV http://simplecv.readthedocs.io/en/latest/HOWTO-Install%20on%20RaspberryPi.html
 ```bash
 cd
-sudo pip install https://github.com/sightmachine/SimpleCV/zipball/master
+git clone git://github.com/sightmachine/SimpleCV.git
+cd SimpleCV
+sudo python setup.py develop
+```
+
+## pysftp
+* Install ffi
+```bash
+sudo apt-get install libffi-dev
+```
+
+* Install pysftp
+```bash
+sudo pip install pysftp
 ```
 
 ## Font
