@@ -4,7 +4,7 @@ import cv2, pysftp
 def detectMovement(last, current):
 	diff = (current - last) + (last - current)
 	diff2 = diff.erode(4)
-	blobs = diff2.findBlobs(minsize=10000)
+	blobs = diff2.findBlobs(minsize=2000)
 	if blobs:
 		return(True, blobs)
 	else:
