@@ -44,7 +44,7 @@ def upload(files, config):
 			for filee in files:
 				conn.put(filee)
 		except Exception as e:
-			print "Exception ({0}): {1}".format(e.errno, e.strerror)
+			print(e)
 			pass
 		conn.close()
 
