@@ -43,8 +43,8 @@ def upload(files, config):
 			conn.cwd(server['uploadPath'])
 			for filee in files:
 				conn.put(filee)
+			conn.close()
 		except Exception as e:
 			print(e)
 			pass
-		conn.close()
 
